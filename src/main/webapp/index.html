@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="admin_template/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="admin_template/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="admin_template/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!--&lt;!&ndash; Morris Charts CSS &ndash;&gt;-->
+    <!--<link href="admin_template/vendor/morrisjs/morris.css" rel="stylesheet">-->
+
+    <!-- Custom Fonts -->
+    <link href="admin_template/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
+    <script src="bower_components/ng-alertify/dist/ng-alertify.js"></script>
+
+    <script src="index.js"></script>
+    <script src="layouts/navbar/navbarCtrl.js"></script>
+    <script src="utils/authentication.js"></script>
+
+    <script src="home/homeState.js"></script>
+    <script src="home/homeCtrl.js"></script>
+
+    <script src="bower_components/chart.js/dist/Chart.min.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+
+
+
+
+    <title>HCI</title>
+
+</head>
+
+<body ng-app="HCIApp" >
+
+
+<div>
+    <div ui-view="navbar" ng-cloak></div>
+
+    <div ui-view="content">
+        <!-- Angular views -->
+    </div>
+
+</div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+     <!--jQuery-->
+    <script src="admin_template/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="admin_template/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="admin_template/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="admin_template/vendor/raphael/raphael.min.js"></script>
+    <script src="admin_template/vendor/morrisjs/morris.min.js"></script>
+    <script src="admin_template/data/morris-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="admin_template/dist/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>
