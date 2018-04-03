@@ -2,7 +2,6 @@
  * Created by daka on 3/30/18.
  */
 
-
 (function (angular) {
     angular.module('HCIApp')
         .controller('homeCtrl', function($scope, $http){
@@ -21,14 +20,13 @@
                     $scope.highs = [];
                     $scope.lows = [];
 
-
                     $scope.sadrzaj = [];
 
                     var count = 0;
 
                     for(var date in response.data["Time Series (Daily)"]){
 
-                        if(count < 10){
+                        if(count < 50){
 
                             $scope.dates.push(date);
 
@@ -59,10 +57,51 @@
 
                         count++;
                     };
+                                     
+                    
+                    $scope.podaci2 = [
+                    	 
+                        $scope.opens,
+                        $scope.highs,
+                        $scope.lows,
+                    	
+                    ];
+                    
+                    $scope.series5 = ['Opens', 'Highs', 'Lows'];
 
 
+                    //donut chart
+                    
+                    $scope.labelsDonut = ["Average Opens", "Average Highs", "Average Lows"];
+                    
+                    var sum1 = 0;
+                    for(var i in $scope.opens){
+                    	sum1 += Number($scope.opens[i]); 
+                    }
+                    
+                    var sum2 = 0;
+                    for(var j in $scope.highs){
+                    	sum2 += Number($scope.highs[j]); 
+                    }
+                    
+                    var sum3 = 0;
+                    for(var k in $scope.lows){
+                    	sum3 += Number($scope.lows[k]); 
+                    }
+                    
+                    
+                    var opensAvr = sum1/$scope.opens.length;
+                    
+                    var highsAvr = sum2/$scope.highs.length;
+                    var lowsAvr = sum3/$scope.lows.length;
+                    
+                    $scope.dataDonut = [opensAvr.toFixed(3), highsAvr.toFixed(3), lowsAvr.toFixed(3)];
+                    
                 });
             };
+            
+            
+            console.log($scope.dates);
 
             loadData();
 
@@ -98,8 +137,7 @@
                 }
             };
 
-            $scope.labels2 = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-            $scope.data2 = [300, 500, 100];
+           
 
             $scope.labels3 =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
 
