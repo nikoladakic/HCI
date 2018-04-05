@@ -7,13 +7,39 @@
         .controller('homeCtrl', function($scope, $http){
             var vm = this;
 
-            //$scope.items = [0];
+            $scope.timeSeries = {
+                model: 'TIME_SERIES_DAILY',
+                availableOptions: [
+                    {id: 'TIME_SERIES_DAILY', name: 'Daily'},
+                    {id: 'TIME_SERIES_WEEKLY', name: 'Weekly'},
+                    {id: 'TIME_SERIES_MONTHLY', name: 'Monthly'}
+                ]
+            };
 
-            var loadData = function () {
-                var promise = $http.get("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
+            $scope.number50 = 50;
+            $scope.number100 = 100;
+            $scope.number200 = 200;
+
+            $scope.numberOfData = 50;
+
+            $scope.loadData = function () {
+
+                console.log("Data loaded!");
+
+                var time = "Time Series (Daily)";
+
+                if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
+                    time = "Weekly Time Series"
+                };
+
+                if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
+                    time = "Monthly Time Series"
+                };
+
+                console.log(time);
+
+                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=MSFT&apikey=0P5MHVJ1YM8H62BG&outputsize=full");
                 promise.then(function (response) {
-
-                    $scope.items = response.data["Time Series (Daily)"];
 
                     $scope.dates = [];
                     $scope.opens = [];
@@ -24,42 +50,32 @@
 
                     var count = 0;
 
-                    for(var date in response.data["Time Series (Daily)"]){
+                    for(var date in response.data[time]){
 
-                        if(count < 50){
+                        if(count < $scope.numberOfData) {
 
                             $scope.dates.push(date);
 
-                            for(var info in response.data["Time Series (Daily)"][date]){
+                            for (var info in response.data[time][date]) {
 
-                                if(info == "1. open"){
-                                    $scope.opens.push(response.data["Time Series (Daily)"][date][info]);
-
-                                    var podatak = {
-
-                                        x: date,
-                                        y: response.data["Time Series (Daily)"][date][info]
-
-                                    };
-
-                                    $scope.sadrzaj.push(podatak);
-
+                                if (info == "1. open") {
+                                    $scope.opens.push(response.data[time][date][info]);
                                 };
-                                if(info == "2. high"){
-                                    $scope.highs.push(response.data["Time Series (Daily)"][date][info]);
+                                if (info == "2. high") {
+                                    $scope.highs.push(response.data[time][date][info]);
                                 };
-                                if(info == "3. low"){
-                                    $scope.lows.push(response.data["Time Series (Daily)"][date][info]);
+                                if (info == "3. low") {
+                                    $scope.lows.push(response.data[time][date][info]);
                                 };
                             };
 
+                            count++;
                         };
-
-                        count++;
                     };
-                                     
+
+                    console.log($scope.dates.length);
                     
-                    $scope.podaci2 = [
+                    $scope.podaci = [
                     	 
                         $scope.opens,
                         $scope.highs,
@@ -68,6 +84,10 @@
                     ];
                     
                     $scope.series5 = ['Opens', 'Highs', 'Lows'];
+
+
+
+
 
 
                     //donut chart
@@ -99,17 +119,16 @@
                     
                 });
             };
-            
-            
-            console.log($scope.dates);
-
-            loadData();
 
 
-            $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-            $scope.series = ['Series A', 'Series B'];
 
-            $scope.data = [
+            $scope.loadData();
+
+
+            $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
+            $scope.series2 = ['Series A', 'Series B'];
+
+            $scope.data2 = [
                 [65, 59, 80, 81, 211, 55, 40],
                 [28, 48, 40, 19, 86, 27, 210]
             ];

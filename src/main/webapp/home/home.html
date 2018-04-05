@@ -12,29 +12,27 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                Data-size: &nbsp;
+                <div class="btn-group" data-toggle="buttons">
+                    <input type="radio" ng-model="numberOfData" value="50" ng-change="loadData()"> 50
+                    <input type="radio" ng-model="numberOfData" value="100" ng-change="loadData()"> 100
+                    <input type="radio" ng-model="numberOfData" value="200" ng-change="loadData()"> 200
+                </div>
+
                 <div class="pull-right">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            Actions
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu pull-right" role="menu">
-                            <li><a href="#">Daily</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#">Weekly</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href="#">Monthly</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <form name="myForm">
+                        Time series
+                        <select name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
+                            <option ng-repeat="option in timeSeries.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                        </select>
+                    </form>
                 </div>
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-                <!--<div id="morris-area-chart"></div>-->
-                <canvas id="line" class="chart chart-line" chart-data="podaci2"
+                <canvas id="line" class="chart chart-line" chart-data="podaci"
                         chart-labels="dates" chart-series="series5" chart-options="options"
                         chart-dataset-override="datasetOverride" chart-click="onClick">
                 </canvas>
@@ -219,3 +217,25 @@
 <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
+
+
+<style>
+
+
+    button#b50:focus
+    {
+        background:grey;
+    }
+
+    button#b100:focus
+    {
+        background:grey;
+    }
+
+    button#b200:focus
+    {
+        background:grey;
+    }
+
+
+</style>
