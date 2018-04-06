@@ -11,11 +11,12 @@
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
-                Data-size: &nbsp;
+
                 <div class="btn-group" data-toggle="buttons">
+                    <span> Data-size: &nbsp; </span>
                     <input type="radio" ng-model="numberOfData" value="50" ng-change="loadData()"> 50
                     <input type="radio" ng-model="numberOfData" value="100" ng-change="loadData()"> 100
                     <input type="radio" ng-model="numberOfData" value="200" ng-change="loadData()"> 200
@@ -158,7 +159,7 @@
             <div class="panel-body">
                 <div class="list-group">
                     <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" class="form-control" placeholder="Search by name.." ng-model="stock.name">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -167,28 +168,15 @@
                     </div>
 
                     <br>
+                    <i class="fas fa-chart-line"></i>
+                    <div ng-repeat="stock in stocks | filter:stock track by $index ">
 
-                    <a href="#" class="list-group-item">
-                        <i class="fa fa-windows fa-fw"></i> MSFT
-                        <span class="pull-right text-muted small"><em>Microsoft</em>
-                                    </span>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="fa fa-apple fa-fw"></i> AAPL
-                        <span class="pull-right text-muted small"><em>Apple</em>
-                                    </span>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="fa fa-facebook fa-fw"></i> FB
-                        <span class="pull-right text-muted small"><em>Facebook</em>
-                                    </span>
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <i class="fa fa-twitter fa-fw"></i> TWTR
-                        <span class="pull-right text-muted small"><em>Twitter</em>
-                                    </span>
-                    </a>
-
+                        <a ng-if="$index < 5"  href="#" class="list-group-item">
+                            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                            {{stock.symbol}}
+                            <span class="pull-right text-muted small"><em>{{stock.name}}</em> </span>
+                        </a>
+                    </div>
                 </div>
                 <!-- /.list-group -->
                 <a href="#" class="btn btn-default btn-block">View More</a>

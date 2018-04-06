@@ -8,7 +8,7 @@
             var vm = this;
 
             $scope.timeSeries = {
-                model: 'TIME_SERIES_DAILY',
+                model: 'TIME_SERIES_MONTHLY',
                 availableOptions: [
                     {id: 'TIME_SERIES_DAILY', name: 'Daily'},
                     {id: 'TIME_SERIES_WEEKLY', name: 'Weekly'},
@@ -16,17 +16,30 @@
                 ]
             };
 
-            $scope.number50 = 50;
-            $scope.number100 = 100;
-            $scope.number200 = 200;
-
             $scope.numberOfData = 50;
+
+            var loadStocks = function () {
+                var promise = $http.get("/api/stock/all");
+                promise.then(function (response) {
+                    $scope.stocks = response.data;
+                    console.log($scope.stocks);
+                });
+            };
+
+            loadStocks();
+
+
 
             $scope.loadData = function () {
 
                 console.log("Data loaded!");
 
-                var time = "Time Series (Daily)";
+                var time = "";
+
+
+                if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
+                    time = "Time Series (Daily)"
+                };
 
                 if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
                     time = "Weekly Time Series"
@@ -45,8 +58,6 @@
                     $scope.opens = [];
                     $scope.highs = [];
                     $scope.lows = [];
-
-                    $scope.sadrzaj = [];
 
                     var count = 0;
 
