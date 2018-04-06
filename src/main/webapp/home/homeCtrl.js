@@ -18,11 +18,12 @@
 
             $scope.numberOfData = 50;
 
+            $scope.navbarCollapsed = true;
+
             var loadStocks = function () {
                 var promise = $http.get("/api/stock/all");
                 promise.then(function (response) {
                     $scope.stocks = response.data;
-                    console.log($scope.stocks);
                 });
             };
 
@@ -48,8 +49,6 @@
                 if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
                     time = "Monthly Time Series"
                 };
-
-                console.log(time);
 
                 var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=MSFT&apikey=0P5MHVJ1YM8H62BG&outputsize=full");
                 promise.then(function (response) {
@@ -84,7 +83,6 @@
                         };
                     };
 
-                    console.log($scope.dates.length);
                     
                     $scope.podaci = [
                     	 

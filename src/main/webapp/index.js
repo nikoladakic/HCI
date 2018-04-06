@@ -12,6 +12,7 @@
         'Alertify',
         'authentication',
         'chart.js',
+        'ui.select'
 
     ]);
 

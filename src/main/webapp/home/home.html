@@ -17,18 +17,17 @@
 
                 <div class="btn-group" data-toggle="buttons">
                     <span> Data-size: &nbsp; </span>
-                    <input type="radio" ng-model="numberOfData" value="50" ng-change="loadData()"> 50
-                    <input type="radio" ng-model="numberOfData" value="100" ng-change="loadData()"> 100
-                    <input type="radio" ng-model="numberOfData" value="200" ng-change="loadData()"> 200
+                    <input type="radio" ng-model="numberOfData" ng-value="50"  ng-change="loadData()"> 50
+                    <input type="radio" ng-model="numberOfData" ng-value="100" ng-change="loadData()"> 100
+                    <input type="radio" ng-model="numberOfData" ng-value="200" ng-change="loadData()"> 200
                 </div>
 
+
                 <div class="pull-right">
-                    <form name="myForm">
                         Time series
-                        <select name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
+                        <select theme="bootstrap" name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
                             <option ng-repeat="option in timeSeries.availableOptions" value="{{option.id}}" >{{option.name}}</option>
                         </select>
-                    </form>
                 </div>
             </div>
             <!-- /.panel-heading -->
@@ -179,7 +178,7 @@
                     </div>
                 </div>
                 <!-- /.list-group -->
-                <a href="#" class="btn btn-default btn-block">View More</a>
+                <!--<a href="#" class="btn btn-default btn-block">View More</a>-->
             </div>
             <!-- /.panel-body -->
         </div>
@@ -192,7 +191,7 @@
                 <canvas id="doughnut" class="chart chart-doughnut"
                         chart-data="dataDonut" chart-labels="labelsDonut">
                 </canvas>
-                <a href="#" class="btn btn-default btn-block">View Details</a>
+                <!--<a href="#" class="btn btn-default btn-block">View Details</a>-->
             </div>
             <!-- /.panel-body -->
         </div>
@@ -207,23 +206,7 @@
 <!-- /#page-wrapper -->
 
 
-<style>
-
-
-    button#b50:focus
-    {
-        background:grey;
-    }
-
-    button#b100:focus
-    {
-        background:grey;
-    }
-
-    button#b200:focus
-    {
-        background:grey;
-    }
-
-
-</style>
+<script type="text/javascript">
+    $('.selectpicker').selectpicker({
+    });
+</script>
