@@ -18,18 +18,19 @@
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
 
-                <div class="btn-group" data-toggle="buttons">
-                    <!--<span> Data-size: &nbsp; </span>-->
-                    <input type="radio" ng-model="data_size" ng-value=compact  ng-change="loadData()"> compact
-                    <input type="radio" ng-model="data_size" ng-value=full ng-change="loadData()"> full
-                    <!--<input type="radio" ng-model="numberOfData" ng-value="200" ng-change="loadData()"> 200-->
-                </div>
+                <!--<div class="btn-group" data-toggle="buttons">-->
+                    <!--<input type="radio" ng-model="data_size" ng-value=compact  ng-change="loadData()"> compact-->
+                    <!--<input type="radio" ng-model="data_size" ng-value=full ng-change="loadData()"> full-->
+                <!--</div>-->
 
                 <div class="pull-right">
-                        Time series
-                        <select theme="bootstrap" name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
+                        <!--Time series-->
+
+                    <!--<div class="form-group">-->
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
                             <option ng-repeat="option in timeSeries.availableOptions" value="{{option.id}}" >{{option.name}}</option>
                         </select>
+                    <!--</div>-->
                 </div>
             </div>
             <!-- /.panel-heading -->

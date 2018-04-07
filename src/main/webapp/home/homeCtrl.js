@@ -16,8 +16,8 @@
                 ]
             };
 
-            $scope.compact = "compact";
-            $scope.full = "full";
+            // $scope.compact = "compact";
+            // $scope.full = "full";
 
             $scope.data_size = 'full';
             $scope.selected_stock = "MSFT";
@@ -54,7 +54,7 @@
                     time = "Monthly Time Series"
                 };
 
-                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=" +$scope.data_size);
+                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                 promise.then(function (response) {
 
                     $scope.dates = [];
@@ -62,8 +62,13 @@
                     $scope.highs = [];
                     $scope.lows = [];
 
+
+
+                    var count = 0;
+
                     for(var date in response.data[time]){
 
+                        if(count < 30){
                             $scope.dates.push(date);
 
                             for (var info in response.data[time][date]) {
@@ -78,9 +83,12 @@
                                     $scope.lows.push(response.data[time][date][info]);
                                 };
                             };
-
+                            count++;
+                        };
 
                     };
+
+                    console.log($scope.dates.length);
 
                     
                     $scope.podaci = [
