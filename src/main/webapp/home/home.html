@@ -1,8 +1,11 @@
 <div id="page-wrapper">
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Dashboard</h1>
+        <h2 class="page-header">Dashboard</h2>
+
+
     </div>
+
     <!-- /.col-lg-12 -->
 </div>
 
@@ -11,17 +14,16 @@
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart | Stock:  {{ selected_stock }}
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
 
                 <div class="btn-group" data-toggle="buttons">
-                    <span> Data-size: &nbsp; </span>
-                    <input type="radio" ng-model="numberOfData" ng-value="50"  ng-change="loadData()"> 50
-                    <input type="radio" ng-model="numberOfData" ng-value="100" ng-change="loadData()"> 100
-                    <input type="radio" ng-model="numberOfData" ng-value="200" ng-change="loadData()"> 200
+                    <!--<span> Data-size: &nbsp; </span>-->
+                    <input type="radio" ng-model="data_size" ng-value=compact  ng-change="loadData()"> compact
+                    <input type="radio" ng-model="data_size" ng-value=full ng-change="loadData()"> full
+                    <!--<input type="radio" ng-model="numberOfData" ng-value="200" ng-change="loadData()"> 200-->
                 </div>
-
 
                 <div class="pull-right">
                         Time series
@@ -166,35 +168,39 @@
                         </span>
                     </div>
 
+
                     <br>
                     <i class="fas fa-chart-line"></i>
                     <div ng-repeat="stock in stocks | filter:stock track by $index ">
 
-                        <a ng-if="$index < 5"  href="#" class="list-group-item">
-                            <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                            {{stock.symbol}}
-                            <span class="pull-right text-muted small"><em>{{stock.name}}</em> </span>
-                        </a>
+                        <span ng-show="$index < stock_view">
+                            <a id="123" href="" ng-click="$parent.selected_stock = stock.symbol; loadData();" class="list-group-item">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> {{stock.symbol}}
+                                <span class="pull-right text-muted small"><em>{{stock.name}}</em> </span>
+                            </a>
+
+                        </span>
+
                     </div>
                 </div>
                 <!-- /.list-group -->
-                <!--<a href="#" class="btn btn-default btn-block">View More</a>-->
+                <a href="" ng-click="stock_view = stock_view + 5;" class="btn btn-default btn-block">View More</a>
             </div>
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
-            </div>
-            <div class="panel-body">
-                <canvas id="doughnut" class="chart chart-doughnut"
-                        chart-data="dataDonut" chart-labels="labelsDonut">
-                </canvas>
-                <!--<a href="#" class="btn btn-default btn-block">View Details</a>-->
-            </div>
-            <!-- /.panel-body -->
-        </div>
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-heading">-->
+                <!--<i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+                <!--<canvas id="doughnut" class="chart chart-doughnut"-->
+                        <!--chart-data="dataDonut" chart-labels="labelsDonut">-->
+                <!--</canvas>-->
+                <!--&lt;!&ndash;<a href="#" class="btn btn-default btn-block">View Details</a>&ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash; /.panel-body &ndash;&gt;-->
+        <!--</div>-->
         <!-- /.panel -->
 
         <!-- /.panel .chat-panel -->

@@ -16,9 +16,12 @@
                 ]
             };
 
-            $scope.numberOfData = 50;
+            $scope.compact = "compact";
+            $scope.full = "full";
 
-            $scope.navbarCollapsed = true;
+            $scope.data_size = 'full';
+            $scope.selected_stock = "MSFT";
+            $scope.stock_view = 10;
 
             var loadStocks = function () {
                 var promise = $http.get("/api/stock/all");
@@ -34,6 +37,7 @@
             $scope.loadData = function () {
 
                 console.log("Data loaded!");
+                console.log($scope.data_size);
 
                 var time = "";
 
@@ -50,7 +54,7 @@
                     time = "Monthly Time Series"
                 };
 
-                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=MSFT&apikey=0P5MHVJ1YM8H62BG&outputsize=full");
+                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=" +$scope.data_size);
                 promise.then(function (response) {
 
                     $scope.dates = [];
@@ -58,11 +62,7 @@
                     $scope.highs = [];
                     $scope.lows = [];
 
-                    var count = 0;
-
                     for(var date in response.data[time]){
-
-                        if(count < $scope.numberOfData) {
 
                             $scope.dates.push(date);
 
@@ -79,8 +79,7 @@
                                 };
                             };
 
-                            count++;
-                        };
+
                     };
 
                     
