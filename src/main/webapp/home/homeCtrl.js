@@ -48,13 +48,14 @@
 
             loadStocks();
 
-
             $scope.loadData = function () {
 
                 $scope.dates = [];
                 $scope.opens = [];
                 $scope.highs = [];
                 $scope.lows = [];
+                $scope.close = [];
+                $scope.volume = [];
 
                 var promise;
                 var stock_key = "";
@@ -63,7 +64,6 @@
                 if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
                     stock_key = "Time Series (Daily)";
                     currency_key = "Time Series (Digital Currency Daily)";
-
                 };
 
                 if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
@@ -104,13 +104,19 @@
                                 for (var info in response.data[currency_key][date]) {
 
                                     if (info == "1a. open (USD)") {
-                                        $scope.opens.push(response.data[currency_key][date][info]);
+                                        $scope.opens.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                     if (info == "2a. high (USD)") {
-                                        $scope.highs.push(response.data[currency_key][date][info]);
+                                        $scope.highs.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                     if (info == "3a. low (USD)") {
-                                        $scope.lows.push(response.data[currency_key][date][info]);
+                                        $scope.lows.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                    };
+                                    if (info == "4a. close (USD)") {
+                                        $scope.close.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                    };
+                                    if (info == "5a. volume (USD)") {
+                                        $scope.volume.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                 };
                                 count++;
@@ -118,7 +124,9 @@
                         };
                     });
 
-                }else{
+                }
+
+                else{
 
                     console.log("Stocks");
 
@@ -135,13 +143,20 @@
                                 for (var info in response.data[stock_key][date]) {
 
                                     if (info == "1. open") {
-                                        $scope.opens.push(response.data[stock_key][date][info]);
+                                        $scope.opens.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                     if (info == "2. high") {
-                                        $scope.highs.push(response.data[stock_key][date][info]);
+                                        $scope.highs.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                     if (info == "3. low") {
-                                        $scope.lows.push(response.data[stock_key][date][info]);
+                                        $scope.lows.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                    };
+                                    if (info == "4. close") {
+                                        $scope.close.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                    };
+                                    if (info == "5. volume") {
+                                        $scope.volume.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     };
                                 };
                                 count++;
@@ -154,49 +169,21 @@
 
                     $scope.opens,
                     $scope.highs,
-                    $scope.lows
-
+                    $scope.lows,
+                    $scope.close,
                 ];
 
-                $scope.series = ['Opens', 'Highs', 'Lows'];
+                $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
 
 
-                    //donut chart
 
-                    // $scope.labelsDonut = ["Average Opens", "Average Highs", "Average Lows"];
-                    //
-                    // var sum1 = 0;
-                    // for(var i in $scope.opens){
-                    // 	sum1 += Number($scope.opens[i]);
-                    // }
-                    //
-                    // var sum2 = 0;
-                    // for(var j in $scope.highs){
-                    // 	sum2 += Number($scope.highs[j]);
-                    // }
-                    //
-                    // var sum3 = 0;
-                    // for(var k in $scope.lows){
-                    // 	sum3 += Number($scope.lows[k]);
-                    // }
-                    //
-                    //
-                    // var opensAvr = sum1/$scope.opens.length;
-                    //
-                    // var highsAvr = sum2/$scope.highs.length;
-                    // var lowsAvr = sum3/$scope.lows.length;
-                    //
-                    // $scope.dataDonut = [opensAvr.toFixed(3), highsAvr.toFixed(3), lowsAvr.toFixed(3)];
 
                     console.log("Data loaded!");
 
             };
 
-
-
             $scope.loadData();
-
 
             $scope.onClick = function (points, evt) {
                 console.log(points, evt);
@@ -220,6 +207,31 @@
                     ]
                 }
             };
+
+
+
+            // ============== COIN MARKET CAP =================
+
+            function loadAllCurrencies() {
+
+                var promise = $http.get("https://api.coinmarketcap.com/v1/ticker/?start=0&limit=10");
+                promise.then(function (response) {
+
+                    $scope.allCurrencies = response.data;
+
+                    $scope.currencySymbols = [];
+                    $scope.volume24USD = [];
+
+                    for(var currency in $scope.allCurrencies){
+
+                        $scope.currencySymbols.push($scope.allCurrencies[currency]["symbol"]);
+                        $scope.volume24USD.push($scope.allCurrencies[currency]["24h_volume_usd"]);
+
+                    }
+                });
+            }
+
+            loadAllCurrencies();
 
         });
 }(angular));
