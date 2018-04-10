@@ -6,6 +6,7 @@
     angular.module('HCIApp')
         .controller('homeCtrl', function($scope, $http){
             var vm = this;
+            vm.loadStocks = loadStocks;
 
             $scope.timeSeries = {
                 model: 'TIME_SERIES_MONTHLY',
@@ -16,15 +17,32 @@
                 ]
             };
 
-            // $scope.compact = "compact";
-            // $scope.full = "full";
+            $scope.stock_category = {
 
-            $scope.data_size = 'full';
+                current: "physical",
+                option1 : "physical",
+                option2 : "digital"
+
+            };
+
             $scope.selected_stock = "MSFT";
             $scope.stock_view = 10;
 
-            var loadStocks = function () {
-                var promise = $http.get("/api/stock/all");
+            function loadStocks() {
+
+                console.log("Symbols loaded");
+
+                var category = "";
+
+                if($scope.stock_category.current == "physical"){
+                    category = 'all';
+                }
+
+                if($scope.stock_category.current == "digital"){
+                    category = 'digital_all';
+                }
+
+                var promise = $http.get("/api/stock/" + category);
                 promise.then(function (response) {
                     $scope.stocks = response.data;
                 });
@@ -33,121 +51,155 @@
             loadStocks();
 
 
-
             $scope.loadData = function () {
 
-                console.log("Data loaded!");
-                console.log($scope.data_size);
+                $scope.dates = [];
+                $scope.opens = [];
+                $scope.highs = [];
+                $scope.lows = [];
 
-                var time = "";
-
+                var promise;
+                var physical_time_key = "";
+                var digital_time_key = "";
 
                 if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
-                    time = "Time Series (Daily)"
+                    physical_time_key = "Time Series (Daily)";
+                    digital_time_key = "Time Series (Digital Currency Daily)";
+
                 };
 
                 if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
-                    time = "Weekly Time Series"
+                    physical_time_key = "Weekly Time Series";
+                    digital_time_key = "Time Series (Digital Currency Weekly)";
                 };
 
                 if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
-                    time = "Monthly Time Series"
+                    physical_time_key = "Monthly Time Series";
+                    digital_time_key = "Time Series (Digital Currency Monthly)";
                 };
 
-                var promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
-                promise.then(function (response) {
+                if($scope.stock_category.current == "digital"){
 
-                    $scope.dates = [];
-                    $scope.opens = [];
-                    $scope.highs = [];
-                    $scope.lows = [];
+                    console.log("Digital");
 
 
+                    // razlikuju se vremenski parametri ( $scope.timeSeries.availableOptions ) od ficikih deonica, pa ih treba izmeniti
 
-                    var count = 0;
+                    var digitalTimeSeries = "";
 
-                    for(var date in response.data[time]){
+                    if(physical_time_key == "Time Series (Daily)"){digitalTimeSeries = "DIGITAL_CURRENCY_DAILY";};
 
-                        if(count < 30){
-                            $scope.dates.push(date);
+                    if(physical_time_key == "Weekly Time Series"){digitalTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
 
-                            for (var info in response.data[time][date]) {
+                    if(physical_time_key == "Monthly Time Series"){digitalTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
 
-                                if (info == "1. open") {
-                                    $scope.opens.push(response.data[time][date][info]);
+                    promise = $http.get("https://www.alphavantage.co/query?function=" + digitalTimeSeries + "&symbol=" + $scope.selected_stock + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
+
+                    promise.then(function (response) {
+
+                        var count = 0;
+
+                        for (var date in response.data[digital_time_key]) {
+
+                            if (count < 30) {
+                                $scope.dates.push(date);
+
+                                for (var info in response.data[digital_time_key][date]) {
+
+                                    if (info == "1a. open (USD)") {
+                                        $scope.opens.push(response.data[digital_time_key][date][info]);
+                                    };
+                                    if (info == "2a. high (USD)") {
+                                        $scope.highs.push(response.data[digital_time_key][date][info]);
+                                    };
+                                    if (info == "3a. low (USD)") {
+                                        $scope.lows.push(response.data[digital_time_key][date][info]);
+                                    };
                                 };
-                                if (info == "2. high") {
-                                    $scope.highs.push(response.data[time][date][info]);
-                                };
-                                if (info == "3. low") {
-                                    $scope.lows.push(response.data[time][date][info]);
-                                };
+                                count++;
                             };
-                            count++;
                         };
+                    });
 
-                    };
+                }else{
 
-                    console.log($scope.dates.length);
+                    console.log("Physical");
 
-                    
-                    $scope.podaci = [
-                    	 
-                        $scope.opens,
-                        $scope.highs,
-                        $scope.lows,
-                    	
-                    ];
-                    
-                    $scope.series5 = ['Opens', 'Highs', 'Lows'];
+                    promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
+                    promise.then(function (response) {
 
+                        var count = 0;
 
+                        for (var date in response.data[physical_time_key]) {
 
+                            if (count < 30) {
+                                $scope.dates.push(date);
+
+                                for (var info in response.data[physical_time_key][date]) {
+
+                                    if (info == "1. open") {
+                                        $scope.opens.push(response.data[physical_time_key][date][info]);
+                                    };
+                                    if (info == "2. high") {
+                                        $scope.highs.push(response.data[physical_time_key][date][info]);
+                                    };
+                                    if (info == "3. low") {
+                                        $scope.lows.push(response.data[physical_time_key][date][info]);
+                                    };
+                                };
+                                count++;
+                            };
+                        };
+                    });
+                };
+
+                $scope.podaci = [
+
+                    $scope.opens,
+                    $scope.highs,
+                    $scope.lows
+
+                ];
+
+                $scope.series = ['Opens', 'Highs', 'Lows'];
 
 
 
                     //donut chart
-                    
-                    $scope.labelsDonut = ["Average Opens", "Average Highs", "Average Lows"];
-                    
-                    var sum1 = 0;
-                    for(var i in $scope.opens){
-                    	sum1 += Number($scope.opens[i]); 
-                    }
-                    
-                    var sum2 = 0;
-                    for(var j in $scope.highs){
-                    	sum2 += Number($scope.highs[j]); 
-                    }
-                    
-                    var sum3 = 0;
-                    for(var k in $scope.lows){
-                    	sum3 += Number($scope.lows[k]); 
-                    }
-                    
-                    
-                    var opensAvr = sum1/$scope.opens.length;
-                    
-                    var highsAvr = sum2/$scope.highs.length;
-                    var lowsAvr = sum3/$scope.lows.length;
-                    
-                    $scope.dataDonut = [opensAvr.toFixed(3), highsAvr.toFixed(3), lowsAvr.toFixed(3)];
-                    
-                });
+
+                    // $scope.labelsDonut = ["Average Opens", "Average Highs", "Average Lows"];
+                    //
+                    // var sum1 = 0;
+                    // for(var i in $scope.opens){
+                    // 	sum1 += Number($scope.opens[i]);
+                    // }
+                    //
+                    // var sum2 = 0;
+                    // for(var j in $scope.highs){
+                    // 	sum2 += Number($scope.highs[j]);
+                    // }
+                    //
+                    // var sum3 = 0;
+                    // for(var k in $scope.lows){
+                    // 	sum3 += Number($scope.lows[k]);
+                    // }
+                    //
+                    //
+                    // var opensAvr = sum1/$scope.opens.length;
+                    //
+                    // var highsAvr = sum2/$scope.highs.length;
+                    // var lowsAvr = sum3/$scope.lows.length;
+                    //
+                    // $scope.dataDonut = [opensAvr.toFixed(3), highsAvr.toFixed(3), lowsAvr.toFixed(3)];
+
+                    console.log("Data loaded!");
+
             };
 
 
 
             $scope.loadData();
 
-
-            $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
-            $scope.series2 = ['Series A', 'Series B'];
-
-            $scope.data2 = [
-                [65, 59, 80, 81, 211, 55, 40],
-                [28, 48, 40, 19, 86, 27, 210]
-            ];
 
             $scope.onClick = function (points, evt) {
                 console.log(points, evt);
@@ -171,15 +223,6 @@
                     ]
                 }
             };
-
-           
-
-            $scope.labels3 =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
-
-            $scope.data3 = [
-                [65, 59, 90, 81, 56, 55, 40],
-                [28, 48, 40, 19, 96, 27, 100]
-            ];
 
         });
 }(angular));

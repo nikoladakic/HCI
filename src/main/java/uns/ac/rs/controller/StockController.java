@@ -27,5 +27,12 @@ public class StockController {
 
     }
 
+    @GetMapping(value = "/digital_all")
+    public List<Stock> getDigitalAll() throws Exception{
+
+        return stockService.readDigitalStocksFromCSV();
+
+    }
+
 
 }

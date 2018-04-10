@@ -33,7 +33,30 @@ public class StockService {
 
         List<Stock> stocks = csvToBean.parse(strat, csvReader);
 
+        csvReader.close();
+
         return stocks;
+
+    }
+
+    public List<Stock> readDigitalStocksFromCSV()throws IOException {
+
+        CSVReader csvReader2 = new CSVReader(new FileReader("src/main/java/uns/ac/rs/files/digital_currency_list.csv"),',','\'', 1);
+
+        ColumnPositionMappingStrategy strat2 = new ColumnPositionMappingStrategy<>();
+        strat2.setType(Stock.class);
+
+        String [] columns = new String[] {"Symbol", "Name"};
+
+        strat2.setColumnMapping(columns);
+
+        CsvToBean csvToBean = new CsvToBean();
+
+        List<Stock> digital_stocks = csvToBean.parse(strat2, csvReader2);
+
+        csvReader2.close();
+
+        return digital_stocks;
 
     }
 

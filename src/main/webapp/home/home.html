@@ -1,7 +1,7 @@
 <div id="page-wrapper">
 <div class="row">
     <div class="col-lg-12">
-        <h2 class="page-header">Dashboard</h2>
+        <h2 class="page-header">{{ selected_stock }}</h2>
 
 
     </div>
@@ -14,7 +14,7 @@
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart | Stock:  {{ selected_stock }}
+                <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected_stock }}
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
 
@@ -36,7 +36,7 @@
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <canvas id="line" class="chart chart-line" chart-data="podaci"
-                        chart-labels="dates" chart-series="series5" chart-options="options"
+                        chart-labels="dates" chart-series="series" chart-options="options"
                         chart-dataset-override="datasetOverride" chart-click="onClick">
                 </canvas>
             </div>
@@ -155,7 +155,16 @@
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <i class="fa fa-tasks fa-fw"></i> Choose Stock
+                <i class="fa fa-tasks fa-fw"></i> Choose category:
+
+                &nbsp; &nbsp;
+
+                <div class="btn-group" data-toggle="buttons">
+                    <input type="radio" ng-model="stock_category.current" ng-value=stock_category.option1  ng-change="vm.loadStocks()"> physical
+                    &nbsp;
+                    <input type="radio" ng-model="stock_category.current" ng-value=stock_category.option2 ng-change="vm.loadStocks()"> digital
+                </div>
+
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -185,7 +194,7 @@
                     </div>
                 </div>
                 <!-- /.list-group -->
-                <a href="" ng-click="stock_view = stock_view + 5;" class="btn btn-default btn-block">View More</a>
+                <!--<a href="" ng-click="stock_view = stock_view + 5;" class="btn btn-default btn-block">View More</a>-->
             </div>
             <!-- /.panel-body -->
         </div>

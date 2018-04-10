@@ -20,7 +20,8 @@
             views: {
                 'content@': {
                     templateUrl: 'home/home.html',
-                    controller: 'homeCtrl'
+                    controller: 'homeCtrl',
+                    controllerAs: 'vm'
                 }
             }
         });

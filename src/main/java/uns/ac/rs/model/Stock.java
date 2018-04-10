@@ -5,8 +5,8 @@ package uns.ac.rs.model;
  */
 public class Stock {
 
-    String symbol;
-    String name;
+    private String symbol;
+    private String name;
 
     public Stock() {
     }
