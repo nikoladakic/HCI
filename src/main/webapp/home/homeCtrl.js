@@ -17,16 +17,14 @@
                 ]
             };
 
-            $scope.stock_category = {
-
-                current: "physical",
-                option1 : "physical",
-                option2 : "digital"
-
+            $scope.category = {
+                current: "stock",
+                stock : "stock",
+                currency : "currency"
             };
 
-            $scope.selected_stock = "MSFT";
-            $scope.stock_view = 10;
+            $scope.selected = "MSFT";
+            $scope.view = 10;
 
             function loadStocks() {
 
@@ -34,17 +32,17 @@
 
                 var category = "";
 
-                if($scope.stock_category.current == "physical"){
-                    category = 'all';
+                if($scope.category.current == "stock"){
+                    category = 'stock';
                 }
 
-                if($scope.stock_category.current == "digital"){
-                    category = 'digital_all';
+                if($scope.category.current == "currency"){
+                    category = 'currency';
                 }
 
-                var promise = $http.get("/api/stock/" + category);
+                var promise = $http.get("/api/" + category);
                 promise.then(function (response) {
-                    $scope.stocks = response.data;
+                    $scope.category_options = response.data;
                 });
             };
 
@@ -59,61 +57,60 @@
                 $scope.lows = [];
 
                 var promise;
-                var physical_time_key = "";
-                var digital_time_key = "";
+                var stock_key = "";
+                var currency_key = "";
 
                 if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
-                    physical_time_key = "Time Series (Daily)";
-                    digital_time_key = "Time Series (Digital Currency Daily)";
+                    stock_key = "Time Series (Daily)";
+                    currency_key = "Time Series (Digital Currency Daily)";
 
                 };
 
                 if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
-                    physical_time_key = "Weekly Time Series";
-                    digital_time_key = "Time Series (Digital Currency Weekly)";
+                    stock_key = "Weekly Time Series";
+                    currency_key = "Time Series (Digital Currency Weekly)";
                 };
 
                 if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
-                    physical_time_key = "Monthly Time Series";
-                    digital_time_key = "Time Series (Digital Currency Monthly)";
+                    stock_key = "Monthly Time Series";
+                    currency_key = "Time Series (Digital Currency Monthly)";
                 };
 
-                if($scope.stock_category.current == "digital"){
+                if($scope.category.current == "currency"){
 
-                    console.log("Digital");
+                    console.log("Currency");
 
+                    // razlikuju se Stock vremenski parametri ( $scope.timeSeries.availableOptions ) od Currency vremenski parametara, pa ih treba izmeniti
 
-                    // razlikuju se vremenski parametri ( $scope.timeSeries.availableOptions ) od ficikih deonica, pa ih treba izmeniti
+                    var currencyTimeSeries = "";
 
-                    var digitalTimeSeries = "";
+                    if(stock_key == "Time Series (Daily)"){currencyTimeSeries = "DIGITAL_CURRENCY_DAILY";};
 
-                    if(physical_time_key == "Time Series (Daily)"){digitalTimeSeries = "DIGITAL_CURRENCY_DAILY";};
+                    if(stock_key == "Weekly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
 
-                    if(physical_time_key == "Weekly Time Series"){digitalTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
+                    if(stock_key == "Monthly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
 
-                    if(physical_time_key == "Monthly Time Series"){digitalTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
-
-                    promise = $http.get("https://www.alphavantage.co/query?function=" + digitalTimeSeries + "&symbol=" + $scope.selected_stock + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
+                    promise = $http.get("https://www.alphavantage.co/query?function=" + currencyTimeSeries + "&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
 
                     promise.then(function (response) {
 
                         var count = 0;
 
-                        for (var date in response.data[digital_time_key]) {
+                        for (var date in response.data[currency_key]) {
 
                             if (count < 30) {
                                 $scope.dates.push(date);
 
-                                for (var info in response.data[digital_time_key][date]) {
+                                for (var info in response.data[currency_key][date]) {
 
                                     if (info == "1a. open (USD)") {
-                                        $scope.opens.push(response.data[digital_time_key][date][info]);
+                                        $scope.opens.push(response.data[currency_key][date][info]);
                                     };
                                     if (info == "2a. high (USD)") {
-                                        $scope.highs.push(response.data[digital_time_key][date][info]);
+                                        $scope.highs.push(response.data[currency_key][date][info]);
                                     };
                                     if (info == "3a. low (USD)") {
-                                        $scope.lows.push(response.data[digital_time_key][date][info]);
+                                        $scope.lows.push(response.data[currency_key][date][info]);
                                     };
                                 };
                                 count++;
@@ -123,28 +120,28 @@
 
                 }else{
 
-                    console.log("Physical");
+                    console.log("Stocks");
 
-                    promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected_stock + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
+                    promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                     promise.then(function (response) {
 
                         var count = 0;
 
-                        for (var date in response.data[physical_time_key]) {
+                        for (var date in response.data[stock_key]) {
 
                             if (count < 30) {
                                 $scope.dates.push(date);
 
-                                for (var info in response.data[physical_time_key][date]) {
+                                for (var info in response.data[stock_key][date]) {
 
                                     if (info == "1. open") {
-                                        $scope.opens.push(response.data[physical_time_key][date][info]);
+                                        $scope.opens.push(response.data[stock_key][date][info]);
                                     };
                                     if (info == "2. high") {
-                                        $scope.highs.push(response.data[physical_time_key][date][info]);
+                                        $scope.highs.push(response.data[stock_key][date][info]);
                                     };
                                     if (info == "3. low") {
-                                        $scope.lows.push(response.data[physical_time_key][date][info]);
+                                        $scope.lows.push(response.data[stock_key][date][info]);
                                     };
                                 };
                                 count++;

@@ -14,23 +14,23 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/api/stock")
+@RequestMapping("/api")
 public class StockController {
 
     @Autowired
     private StockService stockService;
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/stock")
     public List<Stock> getAll() throws Exception{
 
         return stockService.readStocksFromCSV();
 
     }
 
-    @GetMapping(value = "/digital_all")
+    @GetMapping(value = "/currency")
     public List<Stock> getDigitalAll() throws Exception{
 
-        return stockService.readDigitalStocksFromCSV();
+        return stockService.readCurrencyFromCSV();
 
     }
 

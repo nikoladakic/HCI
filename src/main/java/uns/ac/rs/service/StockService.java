@@ -39,7 +39,7 @@ public class StockService {
 
     }
 
-    public List<Stock> readDigitalStocksFromCSV()throws IOException {
+    public List<Stock> readCurrencyFromCSV()throws IOException {
 
         CSVReader csvReader2 = new CSVReader(new FileReader("src/main/java/uns/ac/rs/files/digital_currency_list.csv"),',','\'', 1);
 
@@ -52,11 +52,11 @@ public class StockService {
 
         CsvToBean csvToBean = new CsvToBean();
 
-        List<Stock> digital_stocks = csvToBean.parse(strat2, csvReader2);
+        List<Stock> digital_currency = csvToBean.parse(strat2, csvReader2);
 
         csvReader2.close();
 
-        return digital_stocks;
+        return digital_currency;
 
     }
 

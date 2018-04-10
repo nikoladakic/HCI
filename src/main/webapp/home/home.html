@@ -17,20 +17,10 @@
                 <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected_stock }}
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 
-
-                <!--<div class="btn-group" data-toggle="buttons">-->
-                    <!--<input type="radio" ng-model="data_size" ng-value=compact  ng-change="loadData()"> compact-->
-                    <!--<input type="radio" ng-model="data_size" ng-value=full ng-change="loadData()"> full-->
-                <!--</div>-->
-
                 <div class="pull-right">
-                        <!--Time series-->
-
-                    <!--<div class="form-group">-->
-                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
-                            <option ng-repeat="option in timeSeries.availableOptions" value="{{option.id}}" >{{option.name}}</option>
-                        </select>
-                    <!--</div>-->
+                    <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect" ng-model="timeSeries.model" ng-change="loadData()">
+                        <option ng-repeat="option in timeSeries.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                    </select>
                 </div>
             </div>
             <!-- /.panel-heading -->
@@ -148,21 +138,17 @@
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
-
-        <!-- /.panel -->
     </div>
     <!-- /.col-lg-8 -->
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <i class="fa fa-tasks fa-fw"></i> Choose category:
-
                 &nbsp; &nbsp;
-
                 <div class="btn-group" data-toggle="buttons">
-                    <input type="radio" ng-model="stock_category.current" ng-value=stock_category.option1  ng-change="vm.loadStocks()"> physical
+                    <input type="radio" ng-model="category.current" ng-value=category.stock  ng-change="vm.loadStocks()"> stock
                     &nbsp;
-                    <input type="radio" ng-model="stock_category.current" ng-value=stock_category.option2 ng-change="vm.loadStocks()"> digital
+                    <input type="radio" ng-model="category.current" ng-value=category.currency ng-change="vm.loadStocks()"> currency
                 </div>
 
             </div>
@@ -170,7 +156,7 @@
             <div class="panel-body">
                 <div class="list-group">
                     <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search by name.." ng-model="stock.name">
+                        <input type="text" class="form-control" placeholder="Search by name.." ng-model="option.name">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -178,19 +164,15 @@
                         </span>
                     </div>
 
-
                     <br>
                     <i class="fas fa-chart-line"></i>
-                    <div ng-repeat="stock in stocks | filter:stock track by $index ">
-
-                        <span ng-show="$index < stock_view">
-                            <a id="123" href="" ng-click="$parent.selected_stock = stock.symbol; loadData();" class="list-group-item">
-                                <i class="fa fa-pie-chart" aria-hidden="true"></i> {{stock.symbol}}
-                                <span class="pull-right text-muted small"><em>{{stock.name}}</em> </span>
+                    <div ng-repeat="option in category_options | filter:option track by $index ">
+                        <span ng-show="$index < view">
+                            <a id="123" href="" ng-click="$parent.selected = option.symbol; loadData();" class="list-group-item">
+                                <i class="fa fa-pie-chart" aria-hidden="true"></i> {{option.symbol}}
+                                <span class="pull-right text-muted small"><em>{{option.name}}</em> </span>
                             </a>
-
                         </span>
-
                     </div>
                 </div>
                 <!-- /.list-group -->
@@ -220,9 +202,3 @@
 <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-
-
-<script type="text/javascript">
-    $('.selectpicker').selectpicker({
-    });
-</script>
