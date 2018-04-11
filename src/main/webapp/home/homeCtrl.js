@@ -8,6 +8,8 @@
             var vm = this;
             vm.loadStocks = loadStocks;
 
+            $scope.test1 = 0;
+
             $scope.timeSeries = {
                 model: 'TIME_SERIES_MONTHLY',
                 availableOptions: [
@@ -27,8 +29,6 @@
             $scope.view = 10;
 
             function loadStocks() {
-
-                console.log("Symbols loaded");
 
                 var category = "";
 
@@ -55,122 +55,142 @@
             $scope.close = [];
             $scope.volume = [];
 
+            $scope.security1 = 0;
+
             $scope.loadData = function () {
 
-                $scope.dates.length = 0;
-                $scope.opens.length = 0;
-                $scope.highs.length = 0;
-                $scope.lows.length = 0;
-                $scope.close.length = 0;
-                $scope.volume.length = 0;
+                if($scope.security1 == 0){
 
-                
-                var promise;
-                var stock_key = "";
-                var currency_key = "";
+                    console.log("Data loading..");
 
-                if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
-                    stock_key = "Time Series (Daily)";
-                    currency_key = "Time Series (Digital Currency Daily)";
-                };
+                    $scope.security1 = 1;
 
-                if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
-                    stock_key = "Weekly Time Series";
-                    currency_key = "Time Series (Digital Currency Weekly)";
-                };
+                    // $scope.dates.length = 0;
+                    // $scope.opens.length = 0;
+                    // $scope.highs.length = 0;
+                    // $scope.lows.length = 0;
+                    // $scope.close.length = 0;
+                    // $scope.volume.length = 0;
 
-                if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
-                    stock_key = "Monthly Time Series";
-                    currency_key = "Time Series (Digital Currency Monthly)";
-                };
+                    var promise;
+                    var stock_key = "";
+                    var currency_key = "";
 
-                if($scope.category.current == "currency"){
+                    if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
+                        stock_key = "Time Series (Daily)";
+                        currency_key = "Time Series (Digital Currency Daily)";
+                    };
 
-                    console.log("Currency");
+                    if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
+                        stock_key = "Weekly Time Series";
+                        currency_key = "Time Series (Digital Currency Weekly)";
+                    };
 
-                    // razlikuju se Stock vremenski parametri ( $scope.timeSeries.availableOptions ) od Currency vremenski parametara, pa ih treba izmeniti
+                    if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
+                        stock_key = "Monthly Time Series";
+                        currency_key = "Time Series (Digital Currency Monthly)";
+                    };
 
-                    var currencyTimeSeries = "";
+                    if($scope.category.current == "currency"){
 
-                    if(stock_key == "Time Series (Daily)"){currencyTimeSeries = "DIGITAL_CURRENCY_DAILY";};
+                        // razlikuju se Stock vremenski parametri ( $scope.timeSeries.availableOptions ) od Currency vremenski parametara, pa ih treba izmeniti
 
-                    if(stock_key == "Weekly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
+                        var currencyTimeSeries = "";
 
-                    if(stock_key == "Monthly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
+                        if(stock_key == "Time Series (Daily)"){currencyTimeSeries = "DIGITAL_CURRENCY_DAILY";};
 
-                    promise = $http.get("https://www.alphavantage.co/query?function=" + currencyTimeSeries + "&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
+                        if(stock_key == "Weekly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
 
-                    promise.then(function (response) {
+                        if(stock_key == "Monthly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
 
-                        var count = 0;
+                        promise = $http.get("https://www.alphavantage.co/query?function=" + currencyTimeSeries + "&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
 
-                        for (var date in response.data[currency_key]) {
+                        promise.then(function (response) {
 
-                            if (count < 30) {
-                                $scope.dates.push(date);
+                            $scope.dates.length = 0;
+                            $scope.opens.length = 0;
+                            $scope.highs.length = 0;
+                            $scope.lows.length = 0;
+                            $scope.close.length = 0;
+                            $scope.volume.length = 0;
 
-                                for (var info in response.data[currency_key][date]) {
+                            var count = 0;
 
-                                    if (info == "1a. open (USD)") {
-                                        $scope.opens.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                            for (var date in response.data[currency_key]) {
+
+                                if (count < 30) {
+                                    $scope.dates.push(date);
+
+                                    for (var info in response.data[currency_key][date]) {
+
+                                        if (info == "1a. open (USD)") {
+                                            $scope.opens.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "2a. high (USD)") {
+                                            $scope.highs.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "3a. low (USD)") {
+                                            $scope.lows.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "4a. close (USD)") {
+                                            $scope.close.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "5a. volume (USD)") {
+                                            $scope.volume.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
+                                        };
                                     };
-                                    if (info == "2a. high (USD)") {
-                                        $scope.highs.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "3a. low (USD)") {
-                                        $scope.lows.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "4a. close (USD)") {
-                                        $scope.close.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "5a. volume (USD)") {
-                                        $scope.volume.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                    };
+                                    count++;
                                 };
-                                count++;
                             };
-                        };
+
+                            $scope.security1 = 0;
+
+                        });
+
+                    }
+
+                    else{
+
+                        console.log("Stocks");
+
+                        promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
+                        promise.then(function (response) {
+
+                            var count = 0;
+
+                            for (var date in response.data[stock_key]) {
+
+                                if (count < 30) {
+                                    $scope.dates.push(date);
+
+                                    for (var info in response.data[stock_key][date]) {
+
+                                        if (info == "1. open") {
+                                            $scope.opens.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                            //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "2. high") {
+                                            $scope.highs.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "3. low") {
+                                            $scope.lows.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "4. close") {
+                                            $scope.close.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                        if (info == "5. volume") {
+                                            $scope.volume.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                        };
+                                    };
+                                    count++;
+                                };
+                            };
+
+                        $scope.security1 = 0;
                     });
 
-                }
 
-                else{
 
-                    console.log("Stocks");
-
-                    promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
-                    promise.then(function (response) {
-
-                        var count = 0;
-
-                        for (var date in response.data[stock_key]) {
-
-                            if (count < 30) {
-                                $scope.dates.push(date);
-
-                                for (var info in response.data[stock_key][date]) {
-
-                                    if (info == "1. open") {
-                                        $scope.opens.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "2. high") {
-                                        $scope.highs.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "3. low") {
-                                        $scope.lows.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "4. close") {
-                                        $scope.close.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                    if (info == "5. volume") {
-                                        $scope.volume.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                    };
-                                };
-                                count++;
-                            };
-                        };
-                    });
                 };
 
                 $scope.podaci = [
@@ -178,14 +198,14 @@
                     $scope.opens,
                     $scope.highs,
                     $scope.lows,
-                    $scope.close,
+                    $scope.close
                 ];
 
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
 
                 console.log("Data loaded!");
-
+                };
             };
 
             $scope.loadData();
@@ -220,64 +240,61 @@
 
             $scope.last_price = "0";
 
+            $scope.allCurrencies = [];
 
             $scope.loadAllCurrencies = function() {
 
-                console.log($scope.category.current);
-
-                if($scope.category.current == "currency"){
-
-                    console.log("aaa");
+                if ($scope.category.current == "currency") {
 
                     var promise = $http.get("https://api.coinmarketcap.com/v1/ticker/?start=0&limit=100");
                     promise.then(function (response) {
-
                         $scope.allCurrencies = response.data;
-
-                        $scope.currencySymbol = $scope.selected;
-                        $scope.volume24USD = "";
-                        $scope.price_usd = "";
-                        $scope.percent_change_1h = "";
-                        $scope.percent_change_24h = "";
-                        $scope.percent_change_7d = "";
-
-
-
-                        for(var currency in $scope.allCurrencies){
-
-                            if($scope.allCurrencies[currency]["symbol"] == $scope.selected){
-
-                                $scope.currencySymbol = $scope.allCurrencies[currency]["symbol"];
-                                $scope.volume24USD = $scope.allCurrencies[currency]["24h_volume_usd"];
-                                $scope.price_usd = Math.round(($scope.allCurrencies[currency]["price_usd"]) * 1e2 ) / 1e2;
-                                $scope.percent_change_1h = $scope.allCurrencies[currency]["percent_change_1h"];
-                                $scope.percent_change_24h = $scope.allCurrencies[currency]["percent_change_24h"];
-                                $scope.percent_change_7d = $scope.allCurrencies[currency]["percent_change_7d"];
-
-                            };
-                        };
-
-                        console.log($scope.currencySymbol);
-
-                        if($scope.last_price == 0)
-                            $scope.last_price = $scope.price_usd;
-
+                        $scope.realTimeDataChanges();
                     });
+
                     console.log("Coin Market API");
                 };
-
 
             };
 
             $scope.loadAllCurrencies();
+
+            $scope.realTimeDataChanges = function() {
+
+                $scope.currencySymbol = $scope.selected;
+                $scope.volume24USD = "";
+                $scope.price_usd = "";
+                $scope.percent_change_1h = "";
+                $scope.percent_change_24h = "";
+                $scope.percent_change_7d = "";
+
+
+                for (var currency in $scope.allCurrencies) {
+
+                    if ($scope.allCurrencies[currency]["symbol"] == $scope.selected) {
+
+                        $scope.currencySymbol = $scope.allCurrencies[currency]["symbol"];
+                        $scope.volume24USD = $scope.allCurrencies[currency]["24h_volume_usd"];
+                        $scope.price_usd = Math.round(($scope.allCurrencies[currency]["price_usd"]) * 1e2) / 1e2;
+                        $scope.percent_change_1h = $scope.allCurrencies[currency]["percent_change_1h"];
+                        $scope.percent_change_24h = $scope.allCurrencies[currency]["percent_change_24h"];
+                        $scope.percent_change_7d = $scope.allCurrencies[currency]["percent_change_7d"];
+
+                    };
+                };
+
+                if ($scope.last_price == 0)
+                    $scope.last_price = $scope.price_usd;
+            };
+
+
 
             $interval($scope.loadAllCurrencies, 60000, 0, true);
 
 
             // ====================================================
 
-
-            $scope.realTimeData = function() {
+            $scope.realTimeDataLastPrice = function() {
 
                 console.log("Live Price of", $scope.selected);
 
@@ -301,12 +318,11 @@
                     };
 
                 });
-
             };
 
-            $scope.realTimeData();
+            $scope.realTimeDataLastPrice();
 
-            $interval($scope.realTimeData, 30000, 0, true);
+            $interval($scope.realTimeDataLastPrice, 30000, 0, true);
 
         });
 }(angular));

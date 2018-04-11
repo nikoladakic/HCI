@@ -119,7 +119,7 @@
                     <i class="fas fa-chart-line"></i>
                     <div ng-repeat="option in category_options | filter:option track by $index ">
                         <span ng-show="$index < view">
-                            <a id="123" href="" ng-click="$parent.selected = option.symbol; loadData(); loadAllCurrencies(); realTimeData();" class="list-group-item">
+                            <a id="123" href="" ng-click="$parent.selected = option.symbol; loadData(); realTimeDataChanges();" class="list-group-item">
                                 <i class="fa fa-pie-chart" aria-hidden="true"></i> {{option.symbol}}
                                 <span class="pull-right text-muted small"><em>{{option.name}}</em> </span>
                             </a>
