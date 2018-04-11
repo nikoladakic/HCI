@@ -4,7 +4,7 @@
 
 (function (angular) {
     angular.module('HCIApp')
-        .controller('homeCtrl', function($scope, $http){
+        .controller('homeCtrl', function($scope, $http, $interval){
             var vm = this;
             vm.loadStocks = loadStocks;
 
@@ -18,12 +18,12 @@
             };
 
             $scope.category = {
-                current: "stock",
+                current: "currency",
                 stock : "stock",
                 currency : "currency"
             };
 
-            $scope.selected = "MSFT";
+            $scope.selected = "BTC";
             $scope.view = 10;
 
             function loadStocks() {
@@ -48,15 +48,23 @@
 
             loadStocks();
 
+            $scope.dates = [];
+            $scope.opens = [];
+            $scope.highs = [];
+            $scope.lows = [];
+            $scope.close = [];
+            $scope.volume = [];
+
             $scope.loadData = function () {
 
-                $scope.dates = [];
-                $scope.opens = [];
-                $scope.highs = [];
-                $scope.lows = [];
-                $scope.close = [];
-                $scope.volume = [];
+                $scope.dates.length = 0;
+                $scope.opens.length = 0;
+                $scope.highs.length = 0;
+                $scope.lows.length = 0;
+                $scope.close.length = 0;
+                $scope.volume.length = 0;
 
+                
                 var promise;
                 var stock_key = "";
                 var currency_key = "";
@@ -176,14 +184,12 @@
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
 
-
-
-
-                    console.log("Data loaded!");
+                console.log("Data loaded!");
 
             };
 
             $scope.loadData();
+
 
             $scope.onClick = function (points, evt) {
                 console.log(points, evt);
@@ -210,28 +216,97 @@
 
 
 
-            // ============== COIN MARKET CAP =================
+            // ==================================
 
-            function loadAllCurrencies() {
+            $scope.last_price = "0";
 
-                var promise = $http.get("https://api.coinmarketcap.com/v1/ticker/?start=0&limit=10");
+
+            $scope.loadAllCurrencies = function() {
+
+                console.log($scope.category.current);
+
+                if($scope.category.current == "currency"){
+
+                    console.log("aaa");
+
+                    var promise = $http.get("https://api.coinmarketcap.com/v1/ticker/?start=0&limit=100");
+                    promise.then(function (response) {
+
+                        $scope.allCurrencies = response.data;
+
+                        $scope.currencySymbol = $scope.selected;
+                        $scope.volume24USD = "";
+                        $scope.price_usd = "";
+                        $scope.percent_change_1h = "";
+                        $scope.percent_change_24h = "";
+                        $scope.percent_change_7d = "";
+
+
+
+                        for(var currency in $scope.allCurrencies){
+
+                            if($scope.allCurrencies[currency]["symbol"] == $scope.selected){
+
+                                $scope.currencySymbol = $scope.allCurrencies[currency]["symbol"];
+                                $scope.volume24USD = $scope.allCurrencies[currency]["24h_volume_usd"];
+                                $scope.price_usd = Math.round(($scope.allCurrencies[currency]["price_usd"]) * 1e2 ) / 1e2;
+                                $scope.percent_change_1h = $scope.allCurrencies[currency]["percent_change_1h"];
+                                $scope.percent_change_24h = $scope.allCurrencies[currency]["percent_change_24h"];
+                                $scope.percent_change_7d = $scope.allCurrencies[currency]["percent_change_7d"];
+
+                            };
+                        };
+
+                        console.log($scope.currencySymbol);
+
+                        if($scope.last_price == 0)
+                            $scope.last_price = $scope.price_usd;
+
+                    });
+                    console.log("Coin Market API");
+                };
+
+
+            };
+
+            $scope.loadAllCurrencies();
+
+            $interval($scope.loadAllCurrencies, 60000, 0, true);
+
+
+            // ====================================================
+
+
+            $scope.realTimeData = function() {
+
+                console.log("Live Price of", $scope.selected);
+
+                var key = "Time Series (Digital Currency Intraday)";
+
+                var promise = $http.get("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_INTRADAY&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
                 promise.then(function (response) {
 
-                    $scope.allCurrencies = response.data;
+                    var count = 0;
 
-                    $scope.currencySymbols = [];
-                    $scope.volume24USD = [];
+                    for(var time in response.data[key]){
 
-                    for(var currency in $scope.allCurrencies){
+                        if(count == 1){
+                            break;
+                        };
 
-                        $scope.currencySymbols.push($scope.allCurrencies[currency]["symbol"]);
-                        $scope.volume24USD.push($scope.allCurrencies[currency]["24h_volume_usd"]);
+                        console.log(response.data[key][time]["1b. price (USD)"]);
+                        $scope.last_price = Math.round((response.data[key][time]["1b. price (USD)"]) * 1e2 ) / 1e2;
 
-                    }
+                        count++;
+                    };
+
                 });
-            }
 
-            loadAllCurrencies();
+            };
+
+            $scope.realTimeData();
+
+            $interval($scope.realTimeData, 30000, 0, true);
 
         });
 }(angular));
