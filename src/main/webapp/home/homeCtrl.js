@@ -4,11 +4,9 @@
 
 (function (angular) {
     angular.module('HCIApp')
-        .controller('homeCtrl', function($scope, $http, $interval){
+        .controller('homeCtrl', function($scope, $http, $interval, $timeout, Alertify){
             var vm = this;
             vm.loadStocks = loadStocks;
-
-            $scope.test1 = 0;
 
             $scope.timeSeries = {
                 model: 'TIME_SERIES_MONTHLY',
@@ -27,6 +25,8 @@
 
             $scope.selected = "BTC";
             $scope.view = 10;
+
+
 
             function loadStocks() {
 
@@ -48,6 +48,7 @@
 
             loadStocks();
 
+
             $scope.dates = [];
             $scope.opens = [];
             $scope.highs = [];
@@ -55,10 +56,23 @@
             $scope.close = [];
             $scope.volume = [];
 
+            $scope.security = 0;
+
+            function delay() {
+                $scope.security = 0;
+            }
 
             $scope.loadData = function () {
 
-                    console.log("LoadData je pocela!");
+                console.log($scope.security);
+
+                if($scope.security == 0) {
+                    //Alertify.success("Loading..");
+
+                    $scope.security = 1;
+                    $timeout( delay, 2000 );
+
+                    console.log("LoadData je pocelaa!");
 
                     $scope.dates.length = 0;
                     $scope.opens.length = 0;
@@ -71,33 +85,44 @@
                     var stock_key = "";
                     var currency_key = "";
 
-                    if($scope.timeSeries.model == "TIME_SERIES_DAILY"){
+                    if ($scope.timeSeries.model == "TIME_SERIES_DAILY") {
                         stock_key = "Time Series (Daily)";
                         currency_key = "Time Series (Digital Currency Daily)";
-                    };
+                    }
+                    ;
 
-                    if($scope.timeSeries.model == "TIME_SERIES_WEEKLY"){
+                    if ($scope.timeSeries.model == "TIME_SERIES_WEEKLY") {
                         stock_key = "Weekly Time Series";
                         currency_key = "Time Series (Digital Currency Weekly)";
-                    };
+                    }
+                    ;
 
-                    if($scope.timeSeries.model == "TIME_SERIES_MONTHLY"){
+                    if ($scope.timeSeries.model == "TIME_SERIES_MONTHLY") {
                         stock_key = "Monthly Time Series";
                         currency_key = "Time Series (Digital Currency Monthly)";
-                    };
+                    }
+                    ;
 
-                    if($scope.category.current == "currency"){
+                    if ($scope.category.current == "currency") {
 
                         // razlikuju se Stock vremenski parametri ( $scope.timeSeries.availableOptions ) od Currency vremenski parametara, pa ih treba izmeniti
 
                         var currencyTimeSeries = "";
 
-                        if(stock_key == "Time Series (Daily)"){currencyTimeSeries = "DIGITAL_CURRENCY_DAILY";};
+                        if (stock_key == "Time Series (Daily)") {
+                            currencyTimeSeries = "DIGITAL_CURRENCY_DAILY";
+                        }
+                        ;
 
-                        if(stock_key == "Weekly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
+                        if (stock_key == "Weekly Time Series") {
+                            currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";
+                        }
+                        ;
 
-                        if(stock_key == "Monthly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
-
+                        if (stock_key == "Monthly Time Series") {
+                            currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";
+                        }
+                        ;
 
 
                         promise = $http.get("https://www.alphavantage.co/query?function=" + currencyTimeSeries + "&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
@@ -121,30 +146,40 @@
                                     for (var info in response.data[currency_key][date]) {
 
                                         if (info == "1a. open (USD)") {
-                                            $scope.opens.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.opens.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "2a. high (USD)") {
-                                            $scope.highs.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.highs.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "3a. low (USD)") {
-                                            $scope.lows.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.lows.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "4a. close (USD)") {
-                                            $scope.close.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.close.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "5a. volume (USD)") {
-                                            $scope.volume.push(Math.round( (response.data[currency_key][date][info]) * 1e2 ) / 1e2);
-                                        };
-                                    };
+                                            $scope.volume.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
+                                    }
+                                    ;
                                     count++;
-                                };
-                            };
-                            console.log("LoadData je zavrsila1!");
+                                }
+                                ;
+                            }
+                            ;
+
+
+                            console.log("LoadData je zavrsila111!");
                         });
 
                     }
 
-                    else{
+                    else {
 
                         console.log("Stocks");
 
@@ -161,44 +196,52 @@
                                     for (var info in response.data[stock_key][date]) {
 
                                         if (info == "1. open") {
-                                            $scope.opens.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
+                                            $scope.opens.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
                                             //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                        }
+                                        ;
                                         if (info == "2. high") {
-                                            $scope.highs.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.highs.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "3. low") {
-                                            $scope.lows.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.lows.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "4. close") {
-                                            $scope.close.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        };
+                                            $scope.close.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
                                         if (info == "5. volume") {
-                                            $scope.volume.push(Math.round((response.data[stock_key][date][info]) * 1e2 ) / 1e2);
-                                        };
-                                    };
+                                            $scope.volume.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
+                                        }
+                                        ;
+                                    }
+                                    ;
                                     count++;
-                                };
-                            };
+                                }
+                                ;
+                            }
+                            ;
 
-                        console.log("LoadData je zavrsila2!");
-                    });
+                            console.log("LoadData je zavrsila2!");
+                        });
 
+                    }
+                    ;
 
+                    $scope.podaci = [
 
+                        $scope.opens,
+                        $scope.highs,
+                        $scope.lows,
+                        $scope.close
+                    ];
+
+                    $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
+
+                    console.log("Data loaded!");
                 };
-
-                $scope.podaci = [
-
-                    $scope.opens,
-                    $scope.highs,
-                    $scope.lows,
-                    $scope.close
-                ];
-
-                $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
-
-                console.log("Data loaded!");
 
             };
 
