@@ -55,22 +55,17 @@
             $scope.close = [];
             $scope.volume = [];
 
-            $scope.security1 = 0;
 
             $scope.loadData = function () {
 
-                if($scope.security1 == 0){
+                    console.log("LoadData je pocela!");
 
-                    console.log("Data loading..");
-
-                    $scope.security1 = 1;
-
-                    // $scope.dates.length = 0;
-                    // $scope.opens.length = 0;
-                    // $scope.highs.length = 0;
-                    // $scope.lows.length = 0;
-                    // $scope.close.length = 0;
-                    // $scope.volume.length = 0;
+                    $scope.dates.length = 0;
+                    $scope.opens.length = 0;
+                    $scope.highs.length = 0;
+                    $scope.lows.length = 0;
+                    $scope.close.length = 0;
+                    $scope.volume.length = 0;
 
                     var promise;
                     var stock_key = "";
@@ -102,6 +97,8 @@
                         if(stock_key == "Weekly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_WEEKLY";};
 
                         if(stock_key == "Monthly Time Series"){currencyTimeSeries = "DIGITAL_CURRENCY_MONTHLY";};
+
+
 
                         promise = $http.get("https://www.alphavantage.co/query?function=" + currencyTimeSeries + "&symbol=" + $scope.selected + "&market=USD&apikey=0P5MHVJ1YM8H62BG");
 
@@ -142,9 +139,7 @@
                                     count++;
                                 };
                             };
-
-                            $scope.security1 = 0;
-
+                            console.log("LoadData je zavrsila1!");
                         });
 
                     }
@@ -186,7 +181,7 @@
                                 };
                             };
 
-                        $scope.security1 = 0;
+                        console.log("LoadData je zavrsila2!");
                     });
 
 
@@ -203,9 +198,8 @@
 
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
-
                 console.log("Data loaded!");
-                };
+
             };
 
             $scope.loadData();
@@ -244,6 +238,8 @@
 
             $scope.loadAllCurrencies = function() {
 
+                console.log("tes");
+
                 if ($scope.category.current == "currency") {
 
                     var promise = $http.get("https://api.coinmarketcap.com/v1/ticker/?start=0&limit=100");
@@ -252,12 +248,14 @@
                         $scope.realTimeDataChanges();
                     });
 
-                    console.log("Coin Market API");
+                    console.log("Coin Market API Finished!");
                 };
 
             };
 
             $scope.loadAllCurrencies();
+
+            $interval($scope.loadAllCurrencies, 120000, 0, true);
 
             $scope.realTimeDataChanges = function() {
 
@@ -286,10 +284,6 @@
                 if ($scope.last_price == 0)
                     $scope.last_price = $scope.price_usd;
             };
-
-
-
-            $interval($scope.loadAllCurrencies, 60000, 0, true);
 
 
             // ====================================================

@@ -24,7 +24,7 @@
         .config(config)
         .run(run);
     function config($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/login');
         $stateProvider
             .state('app', {
                 abstract: true,
@@ -39,7 +39,7 @@
 
     }
     /* AuthenticationService */
-    function run($rootScope, $http, $location, $localStorage, $state) {
+    function run($rootScope, $http, $location, $localStorage, AuthenticationService, $state) {
         // postavljanje tokena nakon refresh
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
@@ -49,51 +49,43 @@
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             // lista javnih stanja
 
-            var publicStates = ['login','registration', 'home', /*'entry',*/''];
+            var publicStates = ['login','registration'];
             var restrictedState = publicStates.indexOf(toState.name) === -1;
-            // if(restrictedState && !AuthenticationService.getCurrentUser()){
-            //     $state.go('login');
-            // }
-            // console.log(toState.name);
+            if(restrictedState && !AuthenticationService.getCurrentUser()){
+                $state.go('login');
+            }
+            console.log(toState.name);
             //provera ako je ulogovan
-            // if($localStorage.currentUser && toState.name === "login"){
-            //     $state.go('account');
-            // }
+            if($localStorage.currentUser && toState.name === "login"){
+                $state.go('home');
+            }
 
         });
 
-        // $rootScope.logout = function () {
-        //     AuthenticationService.logout();
-        // }
-        //
-        // $rootScope.getCurrentUserRole = function () {
-        //     if (!AuthenticationService.getCurrentUser()){
-        //         return undefined;
-        //     }
-        //     else{
-        //         return AuthenticationService.getCurrentUser().role;
-        //     }
-        // }
-        // $rootScope.isLoggedIn = function () {
-        //     if (AuthenticationService.getCurrentUser()){
-        //         return true;
-        //     }
-        //     else{
-        //         return false;
-        //     }
-        // }
-        // $rootScope.getCurrentState = function () {
-        //     return $state.current.name;
-        // }
-        //
-        // $rootScope.getCurrentUser = function () {
-        //     if (!AuthenticationService.getCurrentUser()){
-        //         return undefined;
-        //     }
-        //     else{
-        //         return AuthenticationService.getCurrentUser().username;
-        //     }
-        // };
+        $rootScope.logout = function () {
+            AuthenticationService.logout();
+        };
+
+        $rootScope.isLoggedIn = function () {
+            if (AuthenticationService.getCurrentUser()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        };
+        $rootScope.getCurrentState = function () {
+            return $state.current.name;
+        };
+
+        $rootScope.getCurrentUser = function () {
+            if (!AuthenticationService.getCurrentUser()){
+                return undefined;
+            }
+            else{
+                return AuthenticationService.getCurrentUser().username;
+            }
+        };
 
     }
 

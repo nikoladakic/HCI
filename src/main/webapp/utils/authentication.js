@@ -7,7 +7,7 @@
         .module('authentication',['ngStorage', 'ui.router', 'angular-jwt'])
         .factory('AuthenticationService', Service);
 
-    function Service($http, $localStorage, $log, $state, jwtHelper) {
+    function Service($http, $localStorage, $log, $state, jwtHelper, Alertify) {
         var service = {};
 
         service.login = login;
@@ -38,6 +38,7 @@
                     } else {
                         // callback za neuspesan login
                         callback(false);
+                        Alertify.error("Wrong Username or Password!");
                     }
                 }, function errorCallback(response) {
                     console.log("Error")
@@ -49,6 +50,7 @@
             delete $localStorage.currentUser;
             $http.defaults.headers.common.Authorization = '';
             $state.go('login');
+            Alertify.success("You have successfully logged out!");
         }
 
         function getCurrentUser() {
