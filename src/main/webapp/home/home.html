@@ -4,10 +4,10 @@
 <div class="row" >
     <div class="col-lg-12">
 
-        <!--<h2 class="page-header">{{ selected }}</h2>-->
+        <!--<h2 class="page-header">{{ selected }}</h2>  <td data-monetary-amount={{percent_change_1h}}%></td> -->
 
         <article >
-            <marquee ng-show="category.current == 'currency'" behavior="scroll" direction="left">{{currencySymbol}}: {{last_price}}$ Last 1h change: {{percent_change_1h}}% Last 12h change: {{percent_change_24h}}% Last 7 days change: {{percent_change_7d}}%</marquee>
+            <marquee ng-show="category.current == 'currency'" behavior="scroll" direction="left">{{currencySymbol}}: {{last_price}}$ Last 1h change: <span data-monetary-amount={{percent_change_1h}}%></span> Last 12h change: <span data-monetary-amount={{percent_change_24h}}%></span> Last 7 days change: <span data-monetary-amount={{percent_change_7d}}%></span> </marquee>
 
             <!--<marquee behavior="scroll" direction="right">Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here Your scrolling text goes here </marquee>-->
         </article>
@@ -64,11 +64,11 @@
                                     </thead>
                                     <tbody ng-repeat="item in dates track by $index">
                                             <tr ng-if="$index < 10">
-                                                <td>{{item}}</td>
-                                                <td>{{opens[$index]}}</td>
-                                                <td>{{highs[$index]}}</td>
-                                                <td>{{lows[$index]}}</td>
-                                                <td>{{close[$index]}}</td>
+                                                <td>{{item}} </td>
+                                                <td>{{opens[$index]}}$</td>
+                                                <td>{{highs[$index]}}$</td>
+                                                <td>{{lows[$index]}}$</td>
+                                                <td>{{close[$index]}}$</td>
                                             </tr>
                                     </tbody>
                                 </table>
@@ -145,7 +145,7 @@
                             <tbody>
                                 <tr>
                                 <td>{{currencySymbol}}</td>
-                                <td>{{last_price}}</td>
+                                <td>{{last_price}}$</td>
                                 <td data-monetary-amount={{percent_change_1h}}%></td>
                                 <td data-monetary-amount={{percent_change_24h}}%></td>
                                 <td data-monetary-amount={{percent_change_7d}}%></td>
@@ -187,6 +187,21 @@
     td[data-monetary-amount^="-"]:after {
         color: red;
     }
+
+    span[data-monetary-amount] {
+        text-align: right;
+    }
+
+    /* make the cells output their value */
+    span[data-monetary-amount]:after {
+        content: attr(data-monetary-amount);
+    }
+
+    /* make debit amounts show up in red */
+    span[data-monetary-amount^="-"]:after {
+        color: red;
+    }
+
 
 
 </style>
