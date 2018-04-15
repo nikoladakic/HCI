@@ -132,6 +132,10 @@
                                 Alertify.confirm("Please don't click on stock/currency so often. We use free API so we can get only several stock/currencies per minute. Thank you.");
                             };
 
+                            if(response.data["Error Message"]){
+                                Alertify.error("We don't have information about this currency. Please choose another one. Thank you.");
+                            };
+
                             $scope.dates.length = 0;
                             $scope.opens.length = 0;
                             $scope.highs.length = 0;
@@ -296,6 +300,10 @@
                     promise.then(function (response) {
                         $scope.allCurrencies = response.data;
                         $scope.realTimeDataChanges();
+
+                        for(var curr in $scope.allCurrencies){
+                            console.log($scope.allCurrencies[curr]['symbol'], $scope.allCurrencies[curr]['name'] );
+                        }
                     });
 
                     console.log("Coin Market API Finished!");
