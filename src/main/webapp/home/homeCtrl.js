@@ -27,7 +27,6 @@
             $scope.view = 10;
 
 
-
             function loadStocks() {
 
                 var category = "";
@@ -129,6 +128,10 @@
 
                         promise.then(function (response) {
 
+                            if(response.data["Information"]){
+                                Alertify.confirm("Please don't click on stock/currency so often. We use free API so we can get only several stock/currencies per minute. Thank you.");
+                            };
+
                             $scope.dates.length = 0;
                             $scope.opens.length = 0;
                             $scope.highs.length = 0;
@@ -163,15 +166,11 @@
                                         ;
                                         if (info == "5a. volume (USD)") {
                                             $scope.volume.push(Math.round((response.data[currency_key][date][info]) * 1e2) / 1e2);
-                                        }
-                                        ;
-                                    }
-                                    ;
+                                        };
+                                    };
                                     count++;
-                                }
-                                ;
-                            }
-                            ;
+                                };
+                            };
 
 
                             console.log("LoadData je zavrsila111!");
@@ -185,6 +184,15 @@
 
                         promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries.model + "&symbol=" + $scope.selected + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                         promise.then(function (response) {
+
+
+                            if(response.data["Information"]){
+                                Alertify.confirm("Please don't click on stock/currency so often. We use free API so we can get only several stock/currencies per minute. Please wait several seconds before click on stock/currency. Thank you.");
+                            };
+
+                            if(response.data["Error Message"]){
+                                Alertify.error("We don't have information about this stock. Please choose another one.");
+                            };
 
                             var count = 0;
 
@@ -270,7 +278,6 @@
                     ]
                 }
             };
-
 
 
             // ==================================
