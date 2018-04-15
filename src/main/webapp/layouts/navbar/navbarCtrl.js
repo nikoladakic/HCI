@@ -18,6 +18,9 @@
         vm.login = login;
         vm.registration = registration;
 
+        vm.customView = customView;
+        vm.info = info;
+
 
         function login() {
             $state.go('login');
@@ -26,6 +29,15 @@
         function registration() {
             $state.go('registration');
         }
+
+        function customView() {
+            $state.go('customView');
+        }
+
+        function info() {
+            $state.go('info');
+        }
+
 
     }
 })();

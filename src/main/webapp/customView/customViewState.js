@@ -1,3 +1,7 @@
+/**
+ * Created by daka on 4/16/18.
+ */
+
 (function() {
     'use strict';
     angular
@@ -7,16 +11,17 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig($stateProvider) {
-        $stateProvider.state('home', {
+        $stateProvider.state('customView', {
             parent: 'app',
-            url: '/multiView',
+            url: '/customView',
             data: {
                 authorities: []
             },
             views: {
                 'content@': {
-                    templateUrl: 'multiView/multiView.html',
-                    controller: 'multiViewCtrl'
+                    templateUrl: 'customView/customView.html',
+                    controller: 'customViewCtrl',
+                    controllerAs: 'vm'
                 }
             }
         });

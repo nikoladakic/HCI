@@ -301,9 +301,6 @@
                         $scope.allCurrencies = response.data;
                         $scope.realTimeDataChanges();
 
-                        for(var curr in $scope.allCurrencies){
-                            console.log($scope.allCurrencies[curr]['symbol'], $scope.allCurrencies[curr]['name'] );
-                        }
                     });
 
                     console.log("Coin Market API Finished!");
