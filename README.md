@@ -42,5 +42,3 @@ IDE:
 App Screenshots: 
 
 ![Screenshot](src/main/java/uns/ac/rs/files/screenshots/dashboard.png)
-![Screenshot](src/main/java/uns/ac/rs/files/screenshots/dashboard2.png)
-![Screenshot](src/main/java/uns/ac/rs/files/screenshots/customView.png)
