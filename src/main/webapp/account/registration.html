@@ -4,11 +4,15 @@
 
         <div ng-submit="registration()">
             <h1>Registration</h1>
-            <form method="post">
-                <input type="text" name="u" placeholder="Username" ng-model="new_user.username" required="required"/>
-                <input type="password" name="p" placeholder="Password" ng-model="new_user.password" required="required" />
-
-                <button type="submit" class="btn btn-primary btn-block btn-large">Confirm.</button>
+            <form method="post" name="regist">
+                <input type="text" name="username" placeholder="Username" ng-model="new_user.username" ng-minlength="4" ng-maxlength="20" maxlength="20" required="required"/>
+                <span ng-if="!regist.username.$valid" style="font-size: 12px;">* Username must be between 4 and 20 characters</span>
+                <br>
+                <br>
+                <input type="password" name="password" placeholder="Password" ng-model="new_user.password" ng-minlength="4" ng-maxlength="20" maxlength="20" required="required"/>
+                <span ng-if="!regist.password.$valid" style="font-size: 12px;">* Password must be between 4 and 20 characters</span>
+                <br> <br>
+                <button type="submit" class="btn btn-primary btn-block btn-large" ng-disabled="regist.$invalid">Confirm.</button>
             </form>
         </div>
 
