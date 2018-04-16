@@ -9,18 +9,23 @@
         .module('HCIApp')
         .controller('NavbarController', NavbarController);
 
-    NavbarController.$inject = ['$state'];
+    NavbarController.$inject = ['$state', '$scope'];
 
-    function NavbarController ($state) {
-
+    function NavbarController ($state, $scope) {
         var vm = this;
 
         vm.login = login;
         vm.registration = registration;
-
         vm.customView = customView;
         vm.info = info;
         vm.home = home;
+
+        // Must use a wrapper object, otherwise "activeItem" won't work
+        $scope.states = {};
+        $scope.states.activeItem = 'item1';
+
+        $scope.item1 = "item1";
+        $scope.item2 = "item2";
 
 
         function login() {

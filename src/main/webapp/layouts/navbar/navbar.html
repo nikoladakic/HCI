@@ -15,9 +15,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                <li><a ng-if="isLoggedIn()" class="active" href="" ng-click="vm.home()"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
-                <li><a ng-if="isLoggedIn()" href="" ng-click="vm.customView()"><i class="fa fa-table fa-fw"></i>Custom View</a></li>
-                <li><a ng-if="isLoggedIn()" href="" ng-click="vm.info()"><i class="fa fa-info fa-fw" ></i>Info</a></li>
+                <li ng-class="{'active': item1 == states.activeItem}" ng-if="isLoggedIn()" class="item1" href="" ng-click="vm.home(); states.activeItem=item1;"><a><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
+                <li ng-class="{'active': item2 == states.activeItem}" ng-if="isLoggedIn()" class="item2" href="" ng-click="vm.customView(); states.activeItem=item2;"><a><i class="fa fa-table fa-fw"></i>Custom View</a></li>
+                <!--<li><a ng-if="isLoggedIn()" href="" ng-click="vm.info()"><i class="fa fa-info fa-fw" ></i>Info</a></li>-->
+
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -29,3 +30,40 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+
+
+<style>
+
+    ul.navigation li {
+        background: #f6f6f6;
+        padding: 10px;
+        margin: 2px 0;
+        display:block;
+        cursor: pointer;
+    }
+    ul.navigation li.active {
+        background: blue;
+        color: #f6f6f6;
+        display: block;
+        padding: 10px;
+    }
+    .highlightOne {
+        background: orange;
+        font-size: 125%;
+        margin: 5px;
+        padding: 5px;
+    }
+    .navigation {
+        display: block;
+        background: #666;
+        margin: 10px;
+        padding: 10px;
+        width: 40%;
+    }
+    p {
+        margin: 10px 0 20px;
+    }
+
+
+
+</style>

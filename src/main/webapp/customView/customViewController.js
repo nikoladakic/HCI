@@ -4,8 +4,9 @@
 
 (function (angular) {
     angular.module('HCIApp')
-        .controller('customViewCtrl', function($scope, $log, AuthenticationService, $http, $state, Alertify, $timeout){
+        .controller('customViewCtrl', function($scope, $log, AuthenticationService, $http, $state, Alertify, $timeout, $location, $interval){
             var vm = this;
+
 
             vm.loadStocks1 = loadStocks1;
             vm.loadStocks2 = loadStocks2;
@@ -192,15 +193,11 @@
                                 };
                             };
 
-
-                            console.log("LoadData je zavrsila111!");
                         });
 
                     }
 
                     else {
-
-                        console.log("Stocks");
 
                         promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries1.model + "&symbol=" + $scope.selected1 + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                         promise.then(function (response) {
@@ -225,7 +222,6 @@
 
                                         if (info == "1. open") {
                                             $scope.opens1.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
-                                            //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                         }
                                         ;
                                         if (info == "2. high") {
@@ -252,7 +248,6 @@
                             }
                             ;
 
-                            console.log("LoadData je zavrsila2!");
                         });
 
                     }
@@ -268,7 +263,6 @@
 
                     $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
-                    console.log("Data loaded!");
 
             };
 
@@ -421,15 +415,11 @@
                             };
                         };
 
-
-                        console.log("LoadData je zavrsila111!");
                     });
 
                 }
 
                 else {
-
-                    console.log("Stocks");
 
                     promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries2.model + "&symbol=" + $scope.selected2 + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                     promise.then(function (response) {
@@ -454,7 +444,6 @@
 
                                     if (info == "1. open") {
                                         $scope.opens2.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
-                                        //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     }
                                     ;
                                     if (info == "2. high") {
@@ -481,7 +470,6 @@
                         }
                         ;
 
-                        console.log("LoadData je zavrsila2!");
                     });
 
                 }
@@ -497,11 +485,10 @@
 
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
-                console.log("Data loaded!");
 
             };
 
-            $scope.loadData2();
+            $interval($scope.loadData2, 1000, 1);
 
 
             // =================================
@@ -650,15 +637,11 @@
                             };
                         };
 
-
-                        console.log("LoadData je zavrsila111!");
                     });
 
                 }
 
                 else {
-
-                    console.log("Stocks");
 
                     promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries3.model + "&symbol=" + $scope.selected3 + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                     promise.then(function (response) {
@@ -683,7 +666,6 @@
 
                                     if (info == "1. open") {
                                         $scope.opens3.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
-                                        //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     }
                                     ;
                                     if (info == "2. high") {
@@ -710,7 +692,6 @@
                         }
                         ;
 
-                        console.log("LoadData je zavrsila2!");
                     });
 
                 }
@@ -726,11 +707,10 @@
 
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
-                console.log("Data loaded!");
 
             };
 
-            $scope.loadData3();
+            $interval($scope.loadData3, 2000, 1);
 
 
             // ======================================
@@ -879,15 +859,11 @@
                             };
                         };
 
-
-                        console.log("LoadData je zavrsila111!");
                     });
 
                 }
 
                 else {
-
-                    console.log("Stocks");
 
                     promise = $http.get("https://www.alphavantage.co/query?function=" + $scope.timeSeries4.model + "&symbol=" + $scope.selected4 + "&apikey=0P5MHVJ1YM8H62BG&outputsize=compact");
                     promise.then(function (response) {
@@ -912,7 +888,6 @@
 
                                     if (info == "1. open") {
                                         $scope.opens4.push(Math.round((response.data[stock_key][date][info]) * 1e2) / 1e2);
-                                        //console.log( Math.round( (response.data[stock_key][date][info]) * 1e2 ) / 1e2);
                                     }
                                     ;
                                     if (info == "2. high") {
@@ -939,7 +914,6 @@
                         }
                         ;
 
-                        console.log("LoadData je zavrsila2!");
                     });
 
                 }
@@ -955,15 +929,10 @@
 
                 $scope.series = ['Opens', 'Highs', 'Lows', 'Close'];
 
-                console.log("Data loaded!");
 
             };
 
-            $scope.loadData4();
-
-
-
-
+            $interval($scope.loadData4, 3000, 1);
 
 
 

@@ -4,7 +4,7 @@
 
 (function (angular) {
     angular.module('HCIApp')
-        .controller('homeCtrl', function($scope, $http, $interval, $timeout, Alertify){
+        .controller('homeCtrl', function($scope, $http, $interval, $timeout, Alertify, $location){
             var vm = this;
             vm.loadStocks = loadStocks;
 
@@ -63,10 +63,7 @@
 
             $scope.loadData = function () {
 
-                console.log($scope.security);
-
                 if($scope.security == 0) {
-                    //Alertify.success("Loading..");
 
                     $scope.security = 1;
                     $timeout( delay, 2000 );
@@ -310,7 +307,7 @@
 
             $scope.loadAllCurrencies();
 
-            $interval($scope.loadAllCurrencies, 120000, 0, true);
+            $interval($scope.loadAllCurrencies, 300000, 0, true);
 
             $scope.realTimeDataChanges = function() {
 
@@ -371,7 +368,7 @@
 
             $scope.realTimeDataLastPrice();
 
-            $interval($scope.realTimeDataLastPrice, 30000, 0, true);
+            $interval($scope.realTimeDataLastPrice, 30000);
 
         });
 }(angular));
