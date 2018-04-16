@@ -26,6 +26,7 @@
 
         $scope.item1 = "item1";
         $scope.item2 = "item2";
+        $scope.item2 = "item3";
 
 
         function login() {

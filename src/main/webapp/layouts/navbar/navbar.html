@@ -17,7 +17,7 @@
                 <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
                 <li ng-class="{'active': item1 == states.activeItem}" ng-if="isLoggedIn()" class="item1" href="" ng-click="vm.home(); states.activeItem=item1;"><a><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
                 <li ng-class="{'active': item2 == states.activeItem}" ng-if="isLoggedIn()" class="item2" href="" ng-click="vm.customView(); states.activeItem=item2;"><a><i class="fa fa-table fa-fw"></i>Custom View</a></li>
-                <!--<li><a ng-if="isLoggedIn()" href="" ng-click="vm.info()"><i class="fa fa-info fa-fw" ></i>Info</a></li>-->
+                <li ng-class="{'active': item3 == states.activeItem}" ng-if="isLoggedIn()" class="item3" href="" ng-click="vm.info(); states.activeItem=item3;"><a><i class="fa fa-info fa-fw" ></i>Info</a></li>
 
             </ul>
 
