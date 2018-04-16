@@ -20,6 +20,7 @@
 
         vm.customView = customView;
         vm.info = info;
+        vm.home = home;
 
 
         function login() {
@@ -29,6 +30,11 @@
         function registration() {
             $state.go('registration');
         }
+
+        function home() {
+            $state.go('home');
+        }
+
 
         function customView() {
             $state.go('customView');

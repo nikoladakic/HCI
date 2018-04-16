@@ -1,1 +1,162 @@
-<p> proba </p>
+<div class="row" >
+    <div class="col-lg-12">
+
+       <p></p>
+
+    </div>
+
+</div>
+
+
+
+<div class="row" >
+    <div class="col-lg-12">
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected1 }}
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    <div class="btn-group" data-toggle="buttons">
+                        <input type="radio" ng-model="category1.current" ng-value=category1.stock  ng-change="vm.loadStocks1(); loadData1();"> stock
+
+                        <input type="radio" ng-model="category1.current" ng-value=category1.currency ng-change="vm.loadStocks1(); loadData1();"> currency
+                    </div>
+
+                    <div class="pull-right">
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect1" ng-model="selected1" ng-change="loadData1()">
+                            <option ng-repeat="option in category_options1" ng-selected="$first" value="{{option.symbol}}" >{{option.symbol}}</option>
+                        </select>
+
+
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect2" ng-model="timeSeries1.model" ng-change="loadData1()">
+                            <option ng-repeat="option in timeSeries1.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <canvas id="line1" class="chart chart-line" chart-data="podaci1"
+                            chart-labels="dates1" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick">
+                    </canvas>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected2 }}
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    <div class="btn-group" data-toggle="buttons">
+                        <input type="radio" ng-model="category2.current" ng-value=category2.stock  ng-change="vm.loadStocks2(); loadData2();"> stock
+                        &nbsp;
+                        <input type="radio" ng-model="category2.current" ng-value=category2.currency ng-change="vm.loadStocks2(); loadData2();"> currency
+                    </div>
+
+                    <div class="pull-right">
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect3" ng-model="selected2" ng-change="loadData2()">
+                            <option ng-repeat="option in category_options2" value="{{option.symbol}}" >{{option.symbol}}</option>
+                        </select>
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect4" ng-model="timeSeries2.model" ng-change="loadData2()">
+                            <option ng-repeat="option in timeSeries2.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <canvas id="line2" class="chart chart-line" chart-data="podaci2"
+                            chart-labels="dates2" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick">
+                    </canvas>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row" >
+    <div class="col-lg-12">
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected3 }}
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    <div class="btn-group" data-toggle="buttons">
+                        <input type="radio" ng-model="category3.current" ng-value=category3.stock  ng-change="vm.loadStocks3(); loadData3();"> stock
+                        &nbsp;
+                        <input type="radio" ng-model="category3.current" ng-value=category3.currency ng-change="vm.loadStocks3(); loadData3();"> currency
+                    </div>
+
+                    <div class="pull-right">
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect5" ng-model="selected3" ng-change="loadData3()">
+                            <option ng-repeat="option in category_options3" value="{{option.symbol}}" >{{option.symbol}}</option>
+                        </select>
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect6" ng-model="timeSeries3.model" ng-change="loadData3()">
+                            <option ng-repeat="option in timeSeries3.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <canvas id="line3" class="chart chart-line" chart-data="podaci3"
+                            chart-labels="dates3" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick">
+                    </canvas>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart: {{ selected4 }}
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+
+                    <div class="btn-group" data-toggle="buttons">
+                        <input type="radio" ng-model="category4.current" ng-value=category4.stock  ng-change="vm.loadStocks4(); loadData4();"> stock
+                        &nbsp;
+                        <input type="radio" ng-model="category4.current" ng-value=category4.currency ng-change="vm.loadStocks4(); loadData4();"> currency
+                    </div>
+
+                    <div class="pull-right">
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect7" ng-model="selected4" ng-change="loadData4()">
+                            <option ng-repeat="option in category_options4" value="{{option.symbol}}" >{{option.symbol}}</option>
+                        </select>
+                        <select class="btn btn-default btn-xs dropdown-toggle" theme="bootstrap" name="repeatSelect" id="repeatSelect8" ng-model="timeSeries4.model" ng-change="loadData4()">
+                            <option ng-repeat="option in timeSeries4.availableOptions" value="{{option.id}}" >{{option.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <canvas id="line4" class="chart chart-line" chart-data="podaci4"
+                            chart-labels="dates4" chart-series="series" chart-options="options"
+                            chart-dataset-override="datasetOverride" chart-click="onClick">
+                    </canvas>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

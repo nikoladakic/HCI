@@ -15,7 +15,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                <li><a ng-if="isLoggedIn()" class="active" href="/"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
+                <li><a ng-if="isLoggedIn()" class="active" href="" ng-click="vm.home()"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
                 <li><a ng-if="isLoggedIn()" href="" ng-click="vm.customView()"><i class="fa fa-table fa-fw"></i>Custom View</a></li>
                 <li><a ng-if="isLoggedIn()" href="" ng-click="vm.info()"><i class="fa fa-info fa-fw" ></i>Info</a></li>
             </ul>
