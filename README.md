@@ -1,7 +1,7 @@
 # Human Computer Interaction
 
 
-About Application
+### About Application
 
 
 Application enables us to quickly and easily track stocks or crypto currencies.
@@ -25,20 +25,20 @@ that we will briefly explain for easier understanding:
 
 
 
-Technologies:
+### Technologies:
 
    - Java 8
    - Spring
    - AngularJS
    - Bootstrap
     
-API:
+### API:
    - [AlphaVantage](https://www.alphavantage.co/documentation/#)
    - [CoinMarketCap](https://coinmarketcap.com/api/)
 
-IDE:
+### IDE:
    - IntelliJ IDEA
 
-App Screenshots: 
+### App Screenshot: 
 
 ![Screenshot](src/main/java/uns/ac/rs/files/screenshots/dashboard.png)
