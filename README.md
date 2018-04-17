@@ -39,6 +39,10 @@ that we will briefly explain for easier understanding:
 ### IDE:
    - IntelliJ IDEA
 
-### App Screenshot: 
+### App Screenshots: 
 
+### Dashboard
 ![Screenshot](src/main/java/uns/ac/rs/files/screenshots/dashboard.png)
+
+### Custom View
+![Screenshot](src/main/java/uns/ac/rs/files/screenshots/customView.png)
