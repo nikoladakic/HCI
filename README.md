@@ -27,7 +27,7 @@ that we will briefly explain for easier understanding:
 
 ### Technologies:
 
-   - Java 8
+   - Java 7
    - Spring
    - AngularJS
    - Bootstrap
@@ -44,5 +44,3 @@ that we will briefly explain for easier understanding:
 ### Dashboard
 ![Screenshot](src/main/java/uns/ac/rs/files/screenshots/dashboard.png)
 
-### Custom View
-![Screenshot](src/main/java/uns/ac/rs/files/screenshots/customView.png)
